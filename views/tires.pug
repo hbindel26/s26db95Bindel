@@ -1,0 +1,28 @@
+extends layout
+
+block content
+  h1= title
+  
+  //- Step 1: Unbuffered server-side code for results [cite: 141, 142]
+  -
+    let results = [
+      { tire_type: "All-Season", size: "215/55R17", cost: 120 },
+      { tire_type: "Winter", size: "225/50R18", cost: 155 },
+      { tire_type: "Performance", size: "245/40R19", cost: 210 }
+    ]
+
+  //- Steps 2-4: Outermost div (container-fluid) and middle div (row) [cite: 144, 145, 146]
+  div(class="container-fluid")
+    div(class="row")
+      //- Step 5: Iterate over the objects [cite: 147, 148]
+      each item in results
+        //- Step 6: Inner div for each object with class col-sm-2 [cite: 149]
+        div(class="col-sm-2")
+          //- Use #{} interpolation to display properties [cite: 150]
+          p Type: #{item.tire_type}
+          p Size: #{item.size}
+          p Cost: $#{item.cost}
+  
+  //- Add a hyperlink back to the home page 
+  br
+  a(href="/") Back to Home Page

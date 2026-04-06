@@ -1,0 +1,35 @@
+extends layout
+
+block content
+  h1= title
+  //- Step 3: Display the query values
+  p Rows: #{query.rows}, Columns: #{query.cols}
+
+  //- Step 4: Convert strings to numbers
+  - let rows = Number(query.rows)
+  - let col = Number(query.cols)
+
+  //- Step 5: Check if they are integers
+  if (!Number.isInteger(rows) || !Number.isInteger(col))
+    p One or both of the inputs is not an integer.
+  
+  //- Step 6, 7, & 8: Check ranges (2 to 12)
+  else if (rows < 2 || rows > 12)
+    p Rows are out of range (must be between 2 and 12).
+  else if (col < 2 || col > 12)
+    p Columns are out of range (must be between 2 and 12).
+  
+  //- Step 9 & 10: Valid input, start the table
+  else
+    //- Step 12: Create the table with id 'outer'
+    table#outer
+      //- Step 13: Outer loop for rows
+      - for(let i=0; i<rows; i++) {
+        //- Step 14: Create tr with id 'middle'
+        tr#middle
+          //- Step 15: Inner loop for columns
+          - for(let j=0; j<col; j++) {
+            //- Step 16: Data cell with the value (2 * row - col)
+            td= (i * 2) - j
+          - }
+      - }

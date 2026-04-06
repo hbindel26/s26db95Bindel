@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  h1= title
+  //- Step 11: Array of image names (unbuffered)
+  - var image_names = ['allseason.jpg', 'offroad.jpg', 'racing.jpg', 'studded.jpg', 'winter.jpg']
+  
+  //- Step 12: Loop that iterates 3 times
+  - for(let i=0; i<3; i++)
+    //- Step 13: Generate random value 0-4
+    - var randomIndex = Math.floor(Math.random() * 5)
+    //- Step 14: Create img element with interpolation and fixed size
+    img(src=`/images/${image_names[randomIndex]}`, alt=`${image_names[randomIndex]}`, height="300", width="300")

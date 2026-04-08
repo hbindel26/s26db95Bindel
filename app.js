@@ -14,7 +14,7 @@ var resourceRouter = require('./routes/resource');
 require('dotenv').config(); 
 const mongoose = require('mongoose');
 
-// 1. Get the connection string (Make sure this matches your .env file!)
+
 const connectionString = process.env.MONGO_CON;
 
 if (!connectionString) {
@@ -23,7 +23,7 @@ if (!connectionString) {
   mongoose.connect(connectionString)
   .then(() => {
     console.log("Successfully connected to MongoDB!");
-    // Only try to reseed the database once we know we are connected!
+    
     recreateDB();
   })
   .catch((err) => {
@@ -31,20 +31,6 @@ if (!connectionString) {
   });
 }
 
-// 2. Connect once
-mongoose.connect(connectionString);
-
-const db = mongoose.connection;
-
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-
-db.once("open", function() {
-  console.log("Connection to DB succeeded");
-  // Only try to reseed the database once we know we are connected!
-  recreateDB();
-});
-
-// 3. Database Schema and Seeding
 var Tires = require('./models/tires');
 
 async function recreateDB() {

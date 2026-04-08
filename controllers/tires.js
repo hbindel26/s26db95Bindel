@@ -32,3 +32,15 @@ exports.tires_delete = function(req, res) {
 exports.tires_update_put = function(req, res) {
     res.send('NOT IMPLEMENTED: Tires update PUT ' + req.params.id);
 };
+
+// Handle a show all view
+exports.tires_view_all_Page = async function(req, res) {
+    try {
+        const theTires = await Tires.find();
+        res.render('tires', { title: 'Tire Search Results', results: theTires });
+    }
+    catch(err) {
+        res.status(500);
+        res.send(`{"error": ${err}}`);
+    }
+};

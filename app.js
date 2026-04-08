@@ -18,7 +18,16 @@ const connectionString = process.env.MONGO_CON;
 
 if (!connectionString) {
   console.error("Critical Error: MONGO_CON is undefined in .env file!");
-  process.exit(1); 
+}else {
+  mongoose.connect(connectionString)
+  .then(() => {
+    console.log("Successfully connected to MongoDB!");
+    // Only try to reseed the database once we know we are connected!
+    recreateDB();
+  })
+  .catch((err) => {
+    console.error("Error connecting to MongoDB:", err);
+  });
 }
 
 // 2. Connect once

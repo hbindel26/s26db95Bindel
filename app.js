@@ -10,6 +10,7 @@ var searchRouter = require('./routes/search');
 var tiresRouter = require('./routes/tires');
 var gridRouter = require('./routes/grid');
 var pickRouter = require('./routes/pick');
+var resourceRouter = require('./routes/resource');
 require('dotenv').config(); 
 const mongoose = require('mongoose');
 
@@ -74,13 +75,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/search', searchRouter);
 app.use('/tires', tiresRouter);
 app.use('/grid', gridRouter);
 app.use('/pick', pickRouter);
+app.use('/resource', resourceRouter);
 
 
 

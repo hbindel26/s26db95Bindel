@@ -2,6 +2,7 @@ var Tires = require('../models/tires');
 
 // List of all Tires
 exports.tires_list = function(req, res) {
+    console.log("Controller link established successfully!");
     res.send('NOT IMPLEMENTED: Tires list');
 };
 

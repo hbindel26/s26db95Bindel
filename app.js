@@ -10,7 +10,50 @@ var searchRouter = require('./routes/search');
 var tiresRouter = require('./routes/tires');
 var gridRouter = require('./routes/grid');
 var pickRouter = require('./routes/pick');
+require('dotenv').config(); 
+const mongoose = require('mongoose');
 
+// 1. Get the connection string (Make sure this matches your .env file!)
+const connectionString = process.env.MONGO_CON;
+
+if (!connectionString) {
+  console.error("Critical Error: MONGO_CON is undefined in .env file!");
+  process.exit(1); 
+}
+
+// 2. Connect once
+mongoose.connect(connectionString);
+
+const db = mongoose.connection;
+
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+
+db.once("open", function() {
+  console.log("Connection to DB succeeded");
+  // Only try to reseed the database once we know we are connected!
+  recreateDB();
+});
+
+// 3. Database Schema and Seeding
+var Tires = require('./models/tires');
+
+async function recreateDB() {
+  try {
+    await Tires.deleteMany();
+    console.log("Old data cleared.");
+
+    let instance1 = new Tires({ tire_type: "All-Season", size: "225/50R17", cost: 120.99 });
+    let instance2 = new Tires({ tire_type: "Winter", size: '215/55R16', cost: 140.50 });
+    let instance3 = new Tires({ tire_type: "Performance", size: '245/40R18', cost: 189.00 });
+
+    await Promise.all([instance1.save(), instance2.save(), instance3.save()]);
+    console.log("Database reseeded successfully!");
+  } catch (err) {
+    console.error("Error during reseeding:", err);
+  }
+}
+let reseed = true;
+if (reseed) { recreateDB(); }
 var app = express();
 
 // view engine setup

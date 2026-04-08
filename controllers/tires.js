@@ -1,9 +1,16 @@
 var Tires = require('../models/tires');
 
 // List of all Tires
-exports.tires_list = function(req, res) {
-    console.log("Controller link established successfully!");
-    res.send('NOT IMPLEMENTED: Tires list');
+// List of all Tires
+exports.tires_list = async function(req, res) {
+    try {
+        const theTires = await Tires.find();
+        res.send(theTires);
+    }
+    catch(err) {
+        res.status(500);
+        res.send(`{"error": ${err}}`);
+    }  
 };
 
 // Detail for a specific Tire

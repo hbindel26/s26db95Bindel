@@ -1,7 +1,6 @@
 var Tires = require('../models/tires');
 
 // List of all Tires
-// List of all Tires
 exports.tires_list = async function(req, res) {
     try {
         const theTires = await Tires.find();
@@ -13,9 +12,16 @@ exports.tires_list = async function(req, res) {
     }  
 };
 
-// Detail for a specific Tire
-exports.tires_detail = function(req, res) {
-    res.send('NOT IMPLEMENTED: Tires detail: ' + req.params.id);
+// Detail for a specific Tire.
+exports.tires_detail = async function(req, res) {
+    console.log("detail" + req.params.id);
+    try {
+        let result = await Tires.findById(req.params.id);
+        res.send(result);
+    } catch (error) {
+        res.status(500);
+        res.send(`{"error": "document for id ${req.params.id} not found"}`);
+    }
 };
 
 // Handle Tire create on POST.
@@ -42,9 +48,32 @@ exports.tires_delete = function(req, res) {
     res.send('NOT IMPLEMENTED: Tires delete DELETE ' + req.params.id);
 };
 
-// Handle Tire update on PUT
-exports.tires_update_put = function(req, res) {
-    res.send('NOT IMPLEMENTED: Tires update PUT ' + req.params.id);
+// Handle Tire update on PUT.
+exports.tires_update_put = async function(req, res) {
+    console.log(`update on id ${req.params.id} with body ${JSON.stringify(req.body)}`);
+    try {
+        // 1. Find the document
+        let toUpdate = await Tires.findById(req.params.id);
+
+        // 2. Check if the document exists before trying to update it
+        if (!toUpdate) {
+            res.status(404);
+            return res.send(`{"error": "Document for id ${req.params.id} not found"}`);
+        }
+
+        // 3. Update properties ONLY if they are defined in the request body
+        if (req.body.tire_type) toUpdate.tire_type = req.body.tire_type;
+        if (req.body.cost) toUpdate.cost = req.body.cost;
+        if (req.body.size) toUpdate.size = req.body.size;
+
+        // 4. Save and return the result
+        let result = await toUpdate.save();
+        console.log("Success " + result);
+        res.send(result);
+    } catch (err) {
+        res.status(500);
+        res.send(`{"error": "${err}: Update for id ${req.params.id} failed"}`);
+    }
 };
 
 // Handle a show all view

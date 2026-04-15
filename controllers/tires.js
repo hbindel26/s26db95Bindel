@@ -43,9 +43,16 @@ exports.tires_create_post = async function(req, res) {
     }
 };
 
-// Handle Tire delete on DELETE
-exports.tires_delete = function(req, res) {
-    res.send('NOT IMPLEMENTED: Tires delete DELETE ' + req.params.id);
+// Handle Tire delete on DELETE.
+exports.tires_delete = async function(req, res) {
+    console.log("delete " + req.params.id);
+    try {
+        let result = await Tires.findByIdAndDelete(req.params.id);
+        res.send(result);
+    } catch (err) {
+        res.status(500);
+        res.send(`{"error": Error deleting ${err}}`);
+    }
 };
 
 // Handle Tire update on PUT.
@@ -76,14 +83,15 @@ exports.tires_update_put = async function(req, res) {
     }
 };
 
-// Handle a show all view
-exports.tires_view_all_Page = async function(req, res) {
+// Handle a show one view with id specified by query
+exports.tires_view_one_Page = async function(req, res) {
+    console.log("single view for id " + req.query.id);
     try {
-        const theTires = await Tires.find();
-        res.render('tires', { title: 'Tire Search Results', results: theTires });
+        let result = await Tires.findById(req.query.id);
+        res.render('tiredetail', { title: 'Tire Detail', toShow: result });
     }
     catch(err) {
         res.status(500);
-        res.send(`{"error": ${err}}`);
+        res.send(`{"error": "${err}"}`);
     }
 };

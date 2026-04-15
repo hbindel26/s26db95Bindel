@@ -1,0 +1,25 @@
+extends layout
+
+block content
+  h1= title
+
+  if (toShow == null)
+    h2 No instance to display
+  else
+    - let tireid = toShow._id
+    - let tire_type = toShow.tire_type
+    - let tirecost = toShow.cost
+    - let tiresize = toShow.size
+    div
+      div.row
+        div(class='tireAttr mr-3') Tire ID is:
+        div #{tireid}
+      div.row
+        div(class='tireAttr mr-3') Tire Type is:
+        div #{tire_type}
+      div.row
+        div(class='tireAttr mr-3') Tire Size is:
+        div #{tiresize}
+      div.row
+        div(class='tireAttr mr-3') Tire Cost is:
+        div #{tirecost}

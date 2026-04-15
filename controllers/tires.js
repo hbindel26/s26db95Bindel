@@ -95,3 +95,29 @@ exports.tires_view_one_Page = async function(req, res) {
         res.send(`{"error": "${err}"}`);
     }
 };
+// Handle building the view for updating a tire.
+// query provides the id
+exports.tires_update_Page = async function(req, res) {
+    console.log("update view for id " + req.query.id);
+    try {
+        let result = await Tires.findById(req.query.id);
+        res.render('tireupdate', { title: 'Tire Update', toShow: result });
+    }
+    catch(err) {
+        res.status(500);
+        res.send(`{"error": "${err}"}`);
+    }
+};
+// Handle building the view for deleting a tire.
+// query provides the id
+exports.tires_delete_Page = async function(req, res) {
+    console.log("Delete view for id " + req.query.id);
+    try {
+        let result = await Tires.findById(req.query.id);
+        res.render('tiredelete', { title: 'Tire Delete', toShow: result });
+    }
+    catch(err) {
+        res.status(500);
+        res.send(`{"error": "${err}"}`);
+    }
+};

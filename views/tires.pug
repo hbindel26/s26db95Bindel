@@ -2,13 +2,18 @@ extends layout
 
 block content
   h1= title
+  - let items = results
   div(class="container-fluid")
-    div(class="row")
-      each item in results
-        div(class="col-sm-2")
-          p(class="small") Type: #{item.tire_type}
-          p(class="small") Size: #{item.size}
-          p(class="small") Cost: $#{item.cost}
+    div(class="row m-1")
+      each item in items
+        - let destination = `dispatch(\"/tires/update?id=${item._id}\")`
+        div(class="row-sm-2", class="m-1") Item #{item.tire_type}(#{item.size}) is #{item.cost}
+          button.btn( class="btn-primary ml-1", onclick= destination) Update
   
   br
   a(href="/") Back to Home Page
+
+  script.
+    function dispatch(path){
+      window.location.href=path
+    }

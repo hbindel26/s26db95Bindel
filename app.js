@@ -5,6 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+var Account = require('./models/account');
 passport.use(new LocalStrategy(
   function(username, password, done) {
     Account.findOne({ username: username })

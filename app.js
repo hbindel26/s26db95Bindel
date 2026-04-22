@@ -6,8 +6,8 @@ var logger = require('morgan');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var Account = require('./models/account');
-passport.use(new LocalStrategy(
-  function(username, password, done) {
+//passport.use(new LocalStrategy(
+  /*function(username, password, done) {
     Account.findOne({ username: username })
       .then(function(user) {
         if (!user) {
@@ -22,7 +22,7 @@ passport.use(new LocalStrategy(
         return done(err);
       });
   }
-));
+));*/
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var searchRouter = require('./routes/search');

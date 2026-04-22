@@ -3,8 +3,27 @@ extends layout
 block content
   h1= title
   p Welcome to #{title}
+
+  if (!user)
+    a(href="/login")
+      button.btn.btn-primary(type="button") Login
+    br
+    br
+    a(href="/register")
+      button.btn.btn-info(type="button") Register
   
-  //- Part 4 Button and Logic [cite: 79, 107, 111]
+  if (user)
+    p You are currently logged in as #{user.username}
+    a(href="/tires") 
+      button.btn.btn-success(type="button") View the Tires Collection
+    br
+    br
+    a(href="/logout") 
+      button.btn.btn-danger(type="button") Logout
+
+  //- Keeping your previous reduce logic for Part 4 from Assignment 10
+  br
+  hr
   button(type="button", class="btn btn-secondary", onclick="reduce()") Sample Button
   div#use(class="mt-3") take some away
 
@@ -16,7 +35,3 @@ block content
       if (current < 0) current = 0;
       document.getElementById('use').innerText = `Reduced by ${quantity} to ${current}`;
     }
-
-  //- Step 8: Hyperlink to the tires endpoint 
-  br
-  a(href="/tires") View Tire Results

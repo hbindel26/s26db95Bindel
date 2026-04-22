@@ -5,24 +5,8 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-var Account = require('./models/account');
-//passport.use(new LocalStrategy(
-  /*function(username, password, done) {
-    Account.findOne({ username: username })
-      .then(function(user) {
-        if (!user) {
-          return done(null, false, { message: 'Incorrect username.' });
-        }
-        if (!user.validPassword(password)) {
-          return done(null, false, { message: 'Incorrect password.' });
-        }
-        return done(null, user);
-      })
-      .catch(function(err) {
-        return done(err);
-      });
-  }
-));*/
+var Account = require('./models/account'); // Keep this here
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var searchRouter = require('./routes/search');
@@ -96,7 +80,7 @@ app.use('/pick', pickRouter);
 app.use('/resource', resourceRouter);
 // passport config
 // Use the existing connection
-// var Account =require('./models/account');
+var Account =require('./models/account');
 passport.use(new LocalStrategy(Account.authenticate()));
 passport.serializeUser(Account.serializeUser());
 passport.deserializeUser(Account.deserializeUser());

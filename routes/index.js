@@ -1,15 +1,19 @@
 var express = require('express');
 var passport = require('passport');
 var router = express.Router();
-var Account = require('../models/account'); 
+var Account = require('../models/account');
+
+/* GET home page. */
 router.get('/', function (req, res) {
     res.render('index', { title: 'Tires App', user : req.user });
 });
 
+/* GET registration page. */
 router.get('/register', function(req, res) {
     res.render('register', { title: 'Tires App Registration'});
 });
 
+/* POST registration logic. */
 router.post('/register', function(req, res) {
     Account.findOne({ username : req.body.username })
         .then(function (user){
@@ -29,7 +33,7 @@ router.post('/register', function(req, res) {
                     return res.render('register', { title: 'Registration', 
                         message: 'access error', auth: false });
                 }
-                console.log('Sucess, redirect');
+                console.log('Success, redirecting to home');
                 res.redirect('/');
             });
         })
@@ -39,23 +43,22 @@ router.post('/register', function(req, res) {
         });
 });
 
+/* GET login page. */
 router.get('/login', function(req, res) {
     res.render('login', { title: 'Tires App Login', user : req.user });
 });
 
+/* POST login logic. */
 router.post('/login', passport.authenticate('local'), function(req, res) {
     res.redirect('/');
 });
 
+/* GET logout logic. */
 router.get('/logout', function(req, res) {
     req.logout(function(err) {
         if (err) { return next(err); }
         res.redirect('/');
     });
-});
-
-router.get('/ping', function(req, res){
-    res.status(200).send("pong!");
 });
 
 module.exports = router;
